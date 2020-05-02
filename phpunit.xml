@@ -9,7 +9,7 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="Faker Test Suite">
+        <testsuite name="Rest Api Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

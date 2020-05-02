@@ -3,8 +3,10 @@ namespace Rest;
 
 class Application
 {
+    private $router;
     public function __construct()
     {
+        $this->router = new Router();
     }
 
     /**
@@ -13,6 +15,7 @@ class Application
      */
     public function run(String $uri = "")
     {
-        echo("Start " . $uri);
+        $params = $this->router->parse($uri);
+        print_r($params);
     }
 }
