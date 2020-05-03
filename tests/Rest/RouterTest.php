@@ -25,8 +25,8 @@ class RouterTest extends TestCase
     {
         return [
             ['', []],
-            ['p/1', ['p' => 1]],
-            ['p1/1/p2/2/p3', ['p1' => 1, 'p2' => 2, 'p3' => null]]
+            ['p/1', ['p' => '1']],
+            ['p1/1/p2/2/p3', ['p1' => '1', 'p2' => '2', 'p3' => null]],
         ];
     }
 
@@ -73,8 +73,11 @@ class RouterTest extends TestCase
             ],
             [
                 'run/it/id/2',
-                'run', 'it', ['id' => 2]
-            ]
+                'run', 'it', ['id' => '2']
+            ],
+            [
+                '/test/params/p2/2/p5/5?r=5&p=6', 'test', 'params', ['p2' => '2', 'p5' => '5', 'r' => '5', 'p' => '6']
+            ],
         ];
     }
 }

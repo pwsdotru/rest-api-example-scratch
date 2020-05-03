@@ -19,6 +19,13 @@ class Router
      */
     public function parse(String $uri)
     {
+        $urls = explode('?', trim($uri));
+        if (!empty($urls[1])) {
+            parse_str($urls[1], $this->urls['params']);
+        }
+        if (!empty($urls[0])) {
+            $uri = $urls[0];
+        }
         //Trim whitespaces and leadings slashes
         $uri = trim(trim($uri), '/');
         if ($uri === '') {
@@ -30,7 +37,7 @@ class Router
             if (!empty($parts[1])) {
                 $this->urls['action'] = strtolower($parts[1]);
                 if (!empty($parts[2])) {
-                    $this->urls['params'] = $this->parseParams(trim($parts[2]));
+                    $this->urls['params'] = array_merge($this->urls['params'], $this->parseParams(trim($parts[2])));
                 }
             }
         }
