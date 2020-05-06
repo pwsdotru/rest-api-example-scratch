@@ -18,6 +18,11 @@ class Response
         $this->data = [];
     }
 
+    public function display(): void
+    {
+        Header("Content-Type: text/html");
+        print_r($this->buildOut());
+    }
     /**
      * Set error for response for 404 (Not found)
      * @param String $message
@@ -36,5 +41,16 @@ class Response
     public function isSuccess(): bool
     {
         return $this->result;
+    }
+
+    protected function buildOut(): array
+    {
+        $out = [];
+
+        $out['result'] = $this->result;
+        $out = array_merge($out, $this->request_info);
+        $out['data'] = $this->data;
+
+        return $out;
     }
 }

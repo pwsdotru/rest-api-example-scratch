@@ -20,13 +20,13 @@ class Application
     {
         $params = $this->router->parse($uri);
 
-        $this->response = new Response($params['controller'], $params['action']);
+        $this->response = new Response\Json($params['controller'], $params['action']);
 
         $controller_class = '\\Rest\\Controller\\' . ucfirst($params['controller']);
         $action_name = $params['action'] . 'Action';
 
         if (class_exists($controller_class)) {
-            $this->controller = new $controller_class;
+            $this->controller = new $controller_class();
             if (method_exists($this->controller, $action_name)) {
                 $this->controller->$action_name($params);
             } else {
@@ -35,5 +35,10 @@ class Application
         } else {
             $this->response->error404('Controller not found');
         }
+    }
+
+    public function display()
+    {
+        $this->response->display();
     }
 }
