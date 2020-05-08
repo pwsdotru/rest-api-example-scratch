@@ -16,7 +16,7 @@ class Application
      * Run application
      * @param string $uri
      */
-    public function run(String $uri = "")
+    public function run(String $uri = ""): Response
     {
         $params = $this->router->parse($uri);
 
@@ -35,10 +35,6 @@ class Application
         } else {
             $this->response->error404('Controller not found');
         }
-    }
-
-    public function display()
-    {
-        $this->response->display();
+        return $this->response;
     }
 }
