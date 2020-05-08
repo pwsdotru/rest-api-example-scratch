@@ -3,8 +3,10 @@ namespace Rest;
 
 class Controller
 {
+    protected $response;
 
-    public function __construct()
+    public function __construct(Response $response)
     {
+        $this->response = $response;
     }
 }

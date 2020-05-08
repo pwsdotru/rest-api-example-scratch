@@ -26,7 +26,7 @@ class Application
         $action_name = $params['action'] . 'Action';
 
         if (class_exists($controller_class)) {
-            $this->controller = new $controller_class();
+            $this->controller = new $controller_class($this->response);
             if (method_exists($this->controller, $action_name)) {
                 $this->controller->$action_name($params);
             } else {

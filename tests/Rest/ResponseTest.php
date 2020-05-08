@@ -11,11 +11,21 @@ class ResponseTest extends TestCase
     public function testError404(): void
     {
         $response = new Response('test', 'test');
-
         $this->assertTrue($response->isSuccess());
-
         $response->error404('Test');
-
         $this->assertFalse($response->isSuccess());
+    }
+
+    /**
+     * @covers \Rest\Response::setSuccess
+     */
+    public function testSetSuccess(): void
+    {
+        $response = new Response('test', 'test');
+        $this->assertTrue($response->isSuccess());
+        $response->error404('Error');
+        $this->assertFalse($response->isSuccess());
+        $response->setSuccess();
+        $this->assertTrue($response->isSuccess());
     }
 }

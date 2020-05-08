@@ -30,10 +30,28 @@ class Response
     public function error404(String $message): void
     {
         $this->result = false;
-        $this->data['error'] = $message;
-        $this->data['code'] = 404;
+        $this->setVar('error', $message);
+        $this->setVar('code', 404);
     }
 
+    public function setSuccess(): void
+    {
+        $this->result = true;
+    }
+
+    public function setFailed(String $error): void
+    {
+        $this->result = false;
+        $this->setVar('error', $error);
+    }
+
+    public function setVar(String $key, $value = null): void
+    {
+        if (!is_array($this->data)) {
+            $this->data = [];
+        }
+        $this->data[$key] = $value;
+    }
     /**
      * Return status of request
      * @return bool
