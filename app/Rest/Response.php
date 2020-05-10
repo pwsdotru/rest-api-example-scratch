@@ -39,7 +39,7 @@ class Response
         $this->result = true;
     }
 
-    public function setFailed(String $error): void
+    public function setFailed(String $error = ""): void
     {
         $this->result = false;
         $this->setVar('error', $error);
