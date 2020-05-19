@@ -3,10 +3,13 @@ namespace Rest;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \\Rest\Response\\Rest\Response
+ */
 class ResponseTest extends TestCase
 {
     /**
-     * @covers \Rest\Response::isSuccess
+     * @covers ::isSuccess
      */
     public function testError404(): void
     {
@@ -31,7 +34,7 @@ class ResponseTest extends TestCase
     }
 
     /**
-     * @covers \Rest\Response::setSuccess
+     * @covers ::setSuccess
      */
     public function testSetSuccess(): void
     {
@@ -44,7 +47,7 @@ class ResponseTest extends TestCase
     }
 
     /**
-     * @covers \Rest\Response::setFailed
+     * @covers ::setFailed
      */
     public function testSetFailed(): void
     {
@@ -66,7 +69,7 @@ class ResponseTest extends TestCase
     }
 
     /**
-     * @covers \Rest\Response::__construct
+     * @covers ::__construct
      */
     public function testConstruct(): void
     {
@@ -77,6 +80,28 @@ class ResponseTest extends TestCase
         $this->assertIsArray($data);
         $this->assertEquals('test', $data['controller']);
         $this->assertEquals('index', $data['action']);
+    }
+
+    /**
+     * @covers ::display
+     * @runInSeparateProcess
+     */
+    public function testDisplay(): void
+    {
+        $response = new Response('error', 'test');
+
+        $response->display();
+        $this->assertContains('Content-Type: text/html;charset=UTF-8', xdebug_get_headers());
+        $output = $this->getActualOutput();
+        $this->assertStringContainsString('error', $output);
+
+        $response->error404('Not found page');
+
+        $response->display();
+        print_r(xdebug_get_headers());
+        $this->assertContains('HTTP/1.0 404 Not Found', xdebug_get_headers());
+        $output = $this->getActualOutput();
+        $this->assertStringContainsString('Nnot found page', $output);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Rest\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers @coversDefaultClass \\Rest\Response\\Rest\Response\Json
+ * @coversDefaultClass \\Rest\Response\\Rest\Response\Json
  */
 class JsonTest extends TestCase
 {
@@ -16,7 +16,7 @@ class JsonTest extends TestCase
     {
         $response = new \Rest\Response\Json('test', 'json');
         $response->display();
-        $this->assertContains('Content-Type: application/json', xdebug_get_headers());
+        $this->assertContains('Content-Type: application/json;charset=UTF-8', xdebug_get_headers());
 
         $output = $this->getActualOutput();
         $this->isJson($output);

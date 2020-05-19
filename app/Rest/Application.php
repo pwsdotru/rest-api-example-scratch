@@ -20,7 +20,8 @@ class Application
     {
         $params = $this->router->parse($uri);
 
-        $this->response = new Response\Json($params['controller'], $params['action']);
+        $response_class = '\\Rest\\Response\\Json';
+        $this->response = new $response_class($params['controller'], $params['action']);
 
         $controller_class = '\\Rest\\Controller\\' . ucfirst($params['controller']);
         $action_name = $params['action'] . 'Action';

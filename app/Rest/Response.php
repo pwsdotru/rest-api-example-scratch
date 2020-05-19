@@ -2,11 +2,14 @@
 
 namespace Rest;
 
+use http\Header;
+
 class Response
 {
     private $request_info;
     private $result;
     private $data;
+    private $error_code;
 
     public function __construct(String $contoller_name, String $action_name)
     {
@@ -16,11 +19,15 @@ class Response
         ];
         $this->result = true;
         $this->data = [];
+        $this->error_code = null;
     }
 
     public function display(): void
     {
-        Header("Content-Type: text/html");
+        if (false === $this->isSuccess() && $this->error_code !== null) {
+            header("HTTP/1.0 " . $this->error_code, true, $this->error_code);
+        }
+        header("Content-Type: text/html;charset=UTF-8", true);
         print_r($this->buildOut());
     }
     /**
@@ -30,6 +37,7 @@ class Response
     public function error404(String $message): void
     {
         $this->result = false;
+        $this->error_code = 404;
         $this->setVar('error', $message);
         $this->setVar('code', 404);
     }
