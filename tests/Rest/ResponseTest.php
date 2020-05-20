@@ -86,7 +86,7 @@ class ResponseTest extends TestCase
      * @covers ::display
      * @runInSeparateProcess
      */
-    public function testDisplay(): void
+    public function testDisplay200(): void
     {
         $response = new Response('error', 'test');
 
@@ -94,14 +94,21 @@ class ResponseTest extends TestCase
         $this->assertContains('Content-Type: text/html;charset=UTF-8', xdebug_get_headers());
         $output = $this->getActualOutput();
         $this->assertStringContainsString('error', $output);
+    }
 
+    /**
+     * @covers ::display
+     * @runInSeparateProcess
+     */
+    public function testDisplay404(): void
+    {
+        $response = new Response('error', 'test');
         $response->error404('Not found page');
 
         $response->display();
-        print_r(xdebug_get_headers());
         $this->assertContains('HTTP/1.0 404 Not Found', xdebug_get_headers());
         $output = $this->getActualOutput();
-        $this->assertStringContainsString('Nnot found page', $output);
+        $this->assertStringContainsString('Not found page', $output);
     }
 
     /**
