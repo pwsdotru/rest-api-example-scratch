@@ -24,11 +24,21 @@ class Response
 
     public function display(): void
     {
-        if (false === $this->isSuccess() && $this->error_code !== null) {
-            header("HTTP/1.0 " . $this->error_code, true, $this->error_code);
+        $headers = $this->headers();
+        foreach ($headers as $h) {
+            header($h, true);
         }
-        header("Content-Type: text/html;charset=UTF-8", true);
-        print_r($this->buildOut());
+        echo($this->out());
+    }
+
+    /**
+     * Output data
+     *
+     * @return string
+     */
+    public function out(): string
+    {
+        return print_r($this->buildOut(), true);
     }
     /**
      * Set error for response for 404 (Not found)
@@ -69,6 +79,25 @@ class Response
         return $this->result;
     }
 
+    /**
+     * Prepare HTTP headers for output
+     *
+     * @return array
+     */
+    public function headers(): array
+    {
+        $headers = [];
+        if (false === $this->isSuccess() && $this->error_code !== null) {
+            $headers['HTTP'] = 'HTTP/1.0 ' . $this->error_code;
+        }
+        $headers['Content'] = 'Content-Type: text/html;charset=UTF-8';
+        return $headers;
+    }
+    /**
+     * Build output array for content part
+     *
+     * @return array
+     */
     protected function buildOut(): array
     {
         $out = [];

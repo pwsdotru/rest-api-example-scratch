@@ -104,9 +104,9 @@ class ResponseTest extends TestCase
     {
         $response = new Response('error', 'test');
         $response->error404('Not found page');
-
         $response->display();
-        $this->assertContains('HTTP/1.0 404 Not Found', xdebug_get_headers());
+
+        $this->assertContains('HTTP/1.0 404', $response->headers());
         $output = $this->getActualOutput();
         $this->assertStringContainsString('Not found page', $output);
     }

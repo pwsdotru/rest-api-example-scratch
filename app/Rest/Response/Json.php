@@ -3,9 +3,24 @@ namespace Rest\Response;
 
 class Json extends \Rest\Response
 {
-    public function display(): void
+    /**
+     * @return string
+     */
+    public function out(): string
     {
-        header("Content-Type: application/json;charset=UTF-8");
-        echo(json_encode($this->buildOut()));
+        return json_encode($this->buildOut());
+    }
+
+    /**
+     * Prepare HTTP headers for output
+     *
+     * @return array
+     */
+    public function headers(): array
+    {
+        $headers = parent::headers();
+        $headers['Content'] = 'Content-Type: application/json;charset=UTF-8';
+
+        return $headers;
     }
 }

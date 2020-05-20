@@ -19,7 +19,27 @@ class JsonTest extends TestCase
         $this->assertContains('Content-Type: application/json;charset=UTF-8', xdebug_get_headers());
 
         $output = $this->getActualOutput();
-        $this->isJson($output);
+
+        $this->assertStringContainsString('"action":"json"', $output);
+        $this->assertStringContainsString('"controller":"test"', $output);
+    }
+
+    /**
+     * @covers: ::headers
+     */
+    public function testHeaders(): void
+    {
+        $response = new \Rest\Response\Json('test', 'json');
+        $this->assertContains('Content-Type: application/json;charset=UTF-8', $response->headers());
+    }
+
+    /**
+     * @covers ::out
+     */
+    public function testOut(): void
+    {
+        $response = new \Rest\Response\Json('test', 'json');
+        $output = $response->out();
 
         $this->assertStringContainsString('"action":"json"', $output);
         $this->assertStringContainsString('"controller":"test"', $output);
